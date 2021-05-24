@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Inventory</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .main {
+            width: 90%;
+            margin: 20px auto;
+            height: fit-content;
+            border: 2px solid black;
+            display: flex;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1 {
+            margin-left: 30px;
+            margin-top: 0px;
+            padding-top: 10px;
+        }
+
+        #left {
+            width: 25%;
+            border-right: 2px solid black;
+        }
+
+        #right {
+            width: 75%;
+            padding: 20px;
+        }
+
+        input {
+            margin: 10px 30px;
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        #add_product {
+            font-size: 20px;
+            padding: 10px 15px;
+            background-color: rgb(0, 0, 0, 0);
+            margin: 30px;
+            color: rgb(37, 233, 158);
+        }
+
+        button:hover {
+            background-color: gray;
+            color: white;
+        }
+
+        #right {
+            display: grid;
+            grid-template-columns: repeat(3, 200px);
+            grid-column-gap: 15%;
+            grid-row-gap: 50px;
+            margin-left: 4%;
+        }
+
+        .product {
+            border: 1px solid black;
+            height: fit-content;
+        }
+
+        .product img {
+            width: 100%;
+        }
+
+        .product button {
+            padding: 5px;
+        }
+
+        .product :nth-child(2) {
+            margin: 15px 50px 15px 10px;
+        }
+
+        p {
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div id="left">
+            <h1>Add product details</h1>
+            <form>
+                <input type="text" placeholder="Name" id="name">
+                <input type="number" placeholder="Price" id="price">
+                <input type="text" placeholder="Description" id="description">
+                <input type="number" placeholder="Estimated Delivery" id="delivery">
+                <input type="text" placeholder="Image url ( optinal )" id="src">
+            </form>
+            <button id="add_product" onclick="addNew()">Add Product</button>
+        </div>
+        <div id="right">
+
+        </div>
+    </div>
+</body>
+<script>
+    var dataBase = {};
+
+    var addNewProduct = document.getElementById('right'); 
+    var id = 0;
+    function addNew() {
+        id++;
+        let name = document.getElementById('name').value;
+        let price = document.getElementById('price').value;
+        let description = document.getElementById('description').value;
+        let delivery = document.getElementById('delivery').value;
+        let imgSrc = document.getElementById('src').value;
+
+        if(name == ""){
+            alert("Name should not be empty.");
+        }
+        else if(price == ""){
+            alert("Price should not be empty.");
+            return;
+        }
+        else if(description == ""){
+            alert("description should not be empty.");
+        }
+        else if(delivery == ""){
+            alert("Estimate delivery should not be empty.");
+        }
+
+        var localDataBase = {};
+        localDataBase["name"] = name;
+        localDataBase["price"] = price;
+        localDataBase["description"] = description;
+        localDataBase["delivery"] = delivery;
+        localDataBase["imgSrc"] = imgSrc;
+
+        dataBase[id] = localDataBase;
+
+        //console.log(dataBase);
+        var div = document.createElement('div');
+        div.setAttribute('class', 'product');
+        div.setAttribute('id', id);
+        addNewProduct.appendChild(div);
+
+        var img = document.createElement('img');
+        if(imgSrc == ""){
+            img.src = "https://dummyimage.com/300.png/09f/fff";
+        }
+        else{
+            img.src = imgSrc;
+        }
+        div.appendChild(img);
+
+        var button = document.createElement('button');
+        button.innerText = "Remove";
+        button.setAttribute('onclick', 'remove(id)');
+        button.setAttribute('id', id);
+        div.appendChild(button);
+
+        var button = document.createElement('button');
+        button.innerText = "Update";
+        button.setAttribute('id', id);
+        button.setAttribute('onclick', 'update(id)');
+        div.appendChild(button);
+
+    }
+
+    function remove(x) {
+        var temp = document.getElementById(x);
+        temp.remove();
+        dataBase[x] = undefined; 
+    }
+
+    function update(x) {
+        var new_price = prompt( ' Enter new price ');
+        for(key in dataBase[x]){
+            if(key == "price"){
+                dataBase[x][key] = new_price;
+            }
+        }
+        console.log(dataBase);
+    }
+</script>
+</html>

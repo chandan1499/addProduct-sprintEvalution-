@@ -122,6 +122,7 @@
 
         if(name == ""){
             alert("Name should not be empty.");
+            return;
         }
         else if(price == ""){
             alert("Price should not be empty.");
@@ -129,9 +130,11 @@
         }
         else if(description == ""){
             alert("description should not be empty.");
+            return;
         }
         else if(delivery == ""){
             alert("Estimate delivery should not be empty.");
+            return;
         }
 
         var localDataBase = {};
@@ -175,7 +178,7 @@
     function remove(x) {
         var temp = document.getElementById(x);
         temp.remove();
-        dataBase[x] = undefined; 
+        delete dataBase[x];
     }
 
     function update(x) {
